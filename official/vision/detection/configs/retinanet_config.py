@@ -32,6 +32,7 @@ RETINANET_CFG = {
     'type': 'retinanet',
     'model_dir': '',
     'use_tpu': True,
+    'strategy_type': 'tpu',
     'train': {
         'batch_size': 64,
         'iterations_per_loop': 500,
@@ -39,7 +40,7 @@ RETINANET_CFG = {
         'optimizer': {
             'type': 'momentum',
             'momentum': 0.9,
-            'nesterov': False,
+            'nesterov': True,  # `False` is better for TPU v3-128.
         },
         'learning_rate': {
             'type': 'step',
@@ -166,7 +167,6 @@ RETINANET_CFG = {
         'use_batched_nms': False,
         'min_level': 3,
         'max_level': 7,
-        'num_classes': 91,
         'max_total_size': 100,
         'nms_iou_threshold': 0.5,
         'score_threshold': 0.05,
@@ -182,7 +182,6 @@ RETINANET_RESTRICTIONS = [
     'anchor.min_level == postprocess.min_level',
     'anchor.max_level == postprocess.max_level',
     'retinanet_head.num_classes == retinanet_loss.num_classes',
-    'retinanet_head.num_classes == postprocess.num_classes',
 ]
 
 # pylint: enable=line-too-long
